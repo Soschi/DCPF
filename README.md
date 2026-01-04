@@ -16,7 +16,8 @@ DCPF is an append-only binary log format for recording numeric samples from mult
 
 ```mermaid
 flowchart LR
-  H[Header (16 bytes)] --> R0[Record 0]
-  R0 --> R1[Record 1]
-  R1 --> R2[Record 2]
-  R2 --> RN[...]
+  H["Header - 16 bytes"] --> R0["Record 0"]
+  R0 --> R1["Record 1"]
+  R1 --> R2["Record 2"]
+  R2 --> RN["..."]
+
