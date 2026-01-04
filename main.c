@@ -56,7 +56,7 @@ int main(void) {
         printf("File creation Failed!");
         return 0;
     }
-    printf("File created Succesfully!");
+    printf("File created Succesfull!");
 
     fprintf(fptr, "abc");
 
