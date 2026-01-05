@@ -10,7 +10,7 @@ static int write_u16_le(FILE *f, uint16_t v){
 }
 
 static int write_u32_le(FILE *f, uint32_t v){
-    uint8_t b[2];
+    uint8_t b[4];
     b[0] = (uint8_t)(v & 0xFF);
     b[1] = (uint8_t)(v >> 8);
     b[2] = (uint8_t)(v >> 16);
@@ -30,8 +30,11 @@ int dcpf_write_header(
     if(fwrite("DCPF", 1, 4, f) != 4) return -1; //magic
     if(write_u16_le(f, version)) return -1;
     if(write_u16_le(f, record_size)) return -1;
-    if(write_u16_le(f, flags)) return -1;
+    if(write_u32_le(f, flags)) return -1;
     if(write_u16_le(f, channel_count)) return -1;
+    if(write_u16_le(f, 0)) return -1;
+
+    return 0;
 }
 
 int createFile(char name[], FILE **out) {
@@ -45,6 +48,8 @@ int createFile(char name[], FILE **out) {
     FILE *fptr = fopen(nameWithExtension, "w");
 
     if(!fptr) return 2;
+
+    dcpf_write_header(fptr, 1, 12, 0x01, 4);
 
     *out = fptr;
     return 0;
