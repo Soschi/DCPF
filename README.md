@@ -21,3 +21,31 @@ flowchart LR
   R1 --> R2["Record 2"]
   R2 --> RN["..."]
 
+<!-- DCPF Record (12 bytes / 96 bits) -->
+<table>
+  <tr>
+    <th colspan="32" align="left">DCPF Record (12 bytes / 96 bits)</th>
+  </tr>
+  <tr>
+    <th colspan="32" align="left">Bit offsets (within each 32-bit row)</th>
+  </tr>
+  <tr>
+    <th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th>
+    <th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th>
+    <th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th>
+    <th>24</th><th>25</th><th>26</th><th>27</th><th>28</th><th>29</th><th>30</th><th>31</th>
+  </tr>
+
+  <tr>
+    <td colspan="16" align="center"><b>channel_id</b> (uint16 LE)</td>
+    <td colspan="16" align="center"><b>record_flags</b> (uint16 LE)</td>
+  </tr>
+  <tr>
+    <td colspan="32" align="center"><b>data</b> (uint32 LE)</td>
+  </tr>
+  <tr>
+    <td colspan="32" align="center"><b>timestamp</b> (uint32 LE)</td>
+  </tr>
+</table>
+
+<p><i>All multi-byte fields are little-endian.</i></p>
