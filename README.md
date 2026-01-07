@@ -81,12 +81,15 @@ _All multi-byte fields are little-endian._
     <th>7</th><th>6</th><th>5</th><th>4</th><th>3</th><th>2</th><th>1</th><th>0</th>
   </tr>
   <tr>
-    <td colspan="10" align="center">Reserved (must be 0)</td>
+    <td colspan="11" align="center">Reserved (must be 0)</td>
     <td align="center"><b>CONT</b></td>
-    <td align="center"><b>SIGNED</b></td>
     <td colspan="4" align="center"><b>TYPE</b></td>
   </tr>
 </table>
+
+- **TYPE** (bits 0–3): base data type  
+- **CONT** (bit 5): record continues in the next record (used for 64-bit values)  
+- Reserved bits must be `0` in v1
 
 ---
 
@@ -97,27 +100,13 @@ Defines how the `data` field must be interpreted.
 | Bits | Value | Meaning |
 |-----:|-----:|--------|
 | `0000` | `0x0` | Invalid (must not be used) |
-| `0001` | `0x1` | INT32 |
-| `0010` | `0x2` | FLOAT32 (IEEE-754) |
-| `0011` | `0x3` | INT64 (uses continuation) |
-| `0100` | `0x4` | FLOAT64 (uses continuation) |
-| `0101–1111` | — | Reserved |
-
----
-
-## SIGNED Flag (bit 4)
-
-- Applies **only to integer types**
-- Ignored for floating-point types
-
-| Bit | Meaning |
-|---:|--------|
-| `0` | Unsigned integer |
-| `1` | Signed integer |
-
-Examples:
-- `INT32 + SIGNED` → `int32`
-- `INT32` → `uint32`
+| `0001` | `0x1` | UINT32 |
+| `0010` | `0x2` | INT32 |
+| `0011` | `0x3` | FLOAT32 (IEEE-754) |
+| `0100` | `0x4` | UINT64 (uses continuation) |
+| `0101` | `0x5` | INT64 (uses continuation) |
+| `0110` | `0x6` | FLOAT64 (uses continuation) |
+| `0111–1111` | — | Reserved |
 
 ---
 
@@ -134,13 +123,13 @@ Indicates that the current record’s payload **continues in the next record**.
 
 ---
 
-## 64-bit Values (INT64 / FLOAT64)
+## 64-bit Values (UINT64 / INT64 / FLOAT64)
 
 64-bit values are stored using **two consecutive 12-byte records**.
 
 ### Base Record
 - `channel_id` = real channel
-- `TYPE` = INT64 or FLOAT64
+- `TYPE` = UINT64 / INT64 / FLOAT64
 - `CONT = 1`
 - `data` = low 32 bits
 
