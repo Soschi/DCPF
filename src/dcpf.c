@@ -56,7 +56,7 @@ static inline void u64_to_u32_pair(uint64_t v, uint32_t *lo, uint32_t *hi) {
 
 //write data functions
 
-int writeDataI32(FILE *f, uint16_t channelid, int32_t data, uint32_t timestamp) {
+int dcpfWriteDataI32(FILE *f, uint16_t channelid, int32_t data, uint32_t timestamp) {
     if (!f) return -1;
     if (channelid == DCPF_CONT_CHANNEL) return -1;
 
@@ -69,7 +69,7 @@ int writeDataI32(FILE *f, uint16_t channelid, int32_t data, uint32_t timestamp) 
     return 0;
 }
 
-int writeDataUI32(FILE *f, uint16_t channelid, uint32_t data, uint32_t timestamp) {
+int dcpfWriteDataU32(FILE *f, uint16_t channelid, uint32_t data, uint32_t timestamp) {
     if (!f) return -1;
     if (channelid == DCPF_CONT_CHANNEL) return -1;
 
@@ -82,7 +82,7 @@ int writeDataUI32(FILE *f, uint16_t channelid, uint32_t data, uint32_t timestamp
     return 0;
 }
 
-int writeDataF32(FILE *f, uint16_t channelid, float data, uint32_t timestamp) {
+int dcpfWriteDataF32(FILE *f, uint16_t channelid, float data, uint32_t timestamp) {
     if (!f) return -1;
     if (channelid == DCPF_CONT_CHANNEL) return -1;
 
@@ -98,7 +98,7 @@ int writeDataF32(FILE *f, uint16_t channelid, float data, uint32_t timestamp) {
     return 0;
 }
 
-int writeDataF64(FILE *f, uint16_t channelid, double data, uint32_t timestamp) {
+int dcpfWriteDataF64(FILE *f, uint16_t channelid, double data, uint32_t timestamp) {
     if (!f) return -1;
     if (channelid == DCPF_CONT_CHANNEL) return -1;
 
@@ -120,7 +120,7 @@ int writeDataF64(FILE *f, uint16_t channelid, double data, uint32_t timestamp) {
     return 0;
 }
 
-int writeDataUI64(FILE *f, uint16_t channelid, uint64_t data, uint32_t timestamp) {
+int dcpfWriteDataU64(FILE *f, uint16_t channelid, uint64_t data, uint32_t timestamp) {
     if (!f) return -1;
     if (channelid == DCPF_CONT_CHANNEL) return -1;
 
@@ -141,7 +141,7 @@ int writeDataUI64(FILE *f, uint16_t channelid, uint64_t data, uint32_t timestamp
     return 0;
 }
 
-int writeDataI64(FILE *f, uint16_t channelid, int64_t data, uint32_t timestamp) {
+int dcpfWriteDataI64(FILE *f, uint16_t channelid, int64_t data, uint32_t timestamp) {
     if (!f) return -1;
     if (channelid == DCPF_CONT_CHANNEL) return -1;
 
@@ -178,7 +178,7 @@ int dcpf_write_header(FILE *f){
     return 0;
 }
 
-int createFile(char name[], FILE **out) {
+int dcpfCreateFile(char name[], FILE **out) {
     if (!name || !out) return 1;
 
     size_t nameLength = strlen(name);
@@ -196,20 +196,7 @@ int createFile(char name[], FILE **out) {
     return 0;
 }
 
-int main(void) {
-    FILE *fptr;
-    if(createFile("dataTest", &fptr) != 0){
-        printf("File creation Failed!");
-        return 0;
-    }
-    printf("File created Succesfull!");
-
-    writeDataUI32(fptr, 0, 1, 21);
-    writeDataI32(fptr, 0, 123123, 2323331);
-    writeDataF32(fptr, 1, 3123.665, 2233);
-    writeDataUI64(fptr, 2, 18446744073709551615, 5);
-
-
-    fclose(fptr);
-    return 0;
+int dcpfCloseFile(FILE *f) {
+    if (!f) return -1;
+    return fclose(f) == 0 ? 0 : 1;
 }
